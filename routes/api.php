@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\BookmarkController;
 use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\InternshipController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\UserController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\TokenAuth;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +50,9 @@ Route::middleware(TokenAuth::class)->group(function () {
 */
 
 Route::middleware([TokenAuth::class, AdminMiddleware::class])->group(function () {
+    Route::get('/users', [UserController::class, 'index']);
+    Route::put('/users/{user}/reset-password', [UserController::class, 'resetPassword']);
+
     Route::post('/admin/companies', [CompanyController::class, 'store']);
     Route::put('/admin/companies/{company}', [CompanyController::class, 'update']);
     Route::delete('/admin/companies/{company}', [CompanyController::class, 'destroy']);
